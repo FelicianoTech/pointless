@@ -1,0 +1,31 @@
+a.cci{
+}
+	a.cci span.default-build-status{
+		display: inline-block;
+		border-radius: 50%;
+		background-color: #DEDEDE;
+		width: 11px;
+		height: 11px;
+		transition: background-color 2s;
+	}
+		a.cci span.default-build-status.passed{
+			background-color: green;
+		}
+	
+		a.cci span.default-build-status.failed{
+			background-color: red;
+		}
+	
+		a.cci span.default-build-status.error{
+			background-color: black;
+		}
+	
+		a.cci span.default-build-status.running{
+			background-color: cyan;
+		}
+
+img.circleci-icon{
+	width: 14px;
+	height: 14px;
+	vertical-align: text-top;
+}
