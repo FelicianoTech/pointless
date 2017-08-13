@@ -2,8 +2,8 @@
 	"manifest_version": 2,
 	"name": "Pointless - a CircleCI Chrome Extension",
 	"short_name": "Pointless",
-	"version": "0.1.0.0",
-	"version_name": "v0.1.0",
+	"version": "0.1.0.2",
+	"version_name": "v0.1.0.2",
 
 	"description": "Pointless is a CircleCI extension that enhances browsing experience on websites such as GitHub.",
 	"icons":{
