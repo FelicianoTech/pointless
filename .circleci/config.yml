@@ -14,7 +14,7 @@ jobs:
           name: "Create .ZIP"
           command: |
             apt-get update
-            apt-get install zip
+            apt-get -y install zip
             zip -r ~/pointless.zip ../project
       - run:
           name: "Upload & Publish Extension to the Google Chrome Store"
