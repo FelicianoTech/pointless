@@ -1,50 +1,56 @@
 function addRepoPageItems(){
 
-	// Start with a grey status indicator until we determine the project's build status
-	$("div.repohead-details-container h1").append('<a class="cci" href="" title="This project is not built on CircleCI"><span class="default-build-status"></span></a>');
+	if( $( "div.repohead-details-container h1 a.cci" ).length == 0 ){
+	
+		// Start with a grey status indicator until we determine the project's build status
+		$("div.repohead-details-container h1").append('<a class="cci" href="" title="This project is not built on CircleCI"><span class="default-build-status"></span></a>');
+	}
 
-	// start with a follow button until we determine if we're actually following this project
-	$("ul.pagehead-actions").prepend(genPageAction);
-	$( ".cci.btn" ).click(function( e ){
+	if( $( ".cci.btn" ).length == 0 ){
+
+		// start with a follow button until we determine if we're actually following this project
+		$("ul.pagehead-actions").prepend(genPageAction);
+		$( ".cci.btn" ).click(function( e ){
 		
-		if( apiToken.length == 0 ){
-			alert( "Your CircleCI API token must be set in Pointless' Options page to use this feature." );
-			return
-		}
-
-		const followConfirm = "Are you sure you want to follow this project on CircleCI?";
-		const unFollowConfirm = "Are you sure you want to stop following this project? If you are the last person following, the project will stop building. Continue?";
-		const firstFollowConfirm = "This will start building this project on CircleCI with you following the project. Are you sure?";
-		const cantFollowAlert = "You do not have the proper permissions to follow this project.";
-
-		if( project.following ){
-		
-			if( confirm( unFollowConfirm ) == true ){
-				$.post( apiURL + "project/github/" + project.org + "/" + project.repo + "/unfollow?circle-token=" + apiToken, function( data ){
-
-					$( ".cci.btn span" ).text( "Follow" );
-					$( ".cci.btn" ).attr( "title", "Follow this project on CircleCI." );
-					alert( "You have successfully unfollowed " + project.org + "/" + project.repo + "." );
-				});
+			if( apiToken.length == 0 ){
+				alert( "Your CircleCI API token must be set in Pointless' Options page to use this feature." );
+				return
 			}
-		} else{
-			if( project.writable ){
 
-				if( confirm( followConfirm ) == true ){
-					$.post( apiURL + "project/github/" + project.org + "/" + project.repo + "/follow?circle-token=" + apiToken, function( data ){
+			const followConfirm = "Are you sure you want to follow this project on CircleCI?";
+			const unFollowConfirm = "Are you sure you want to stop following this project? If you are the last person following, the project will stop building. Continue?";
+			const firstFollowConfirm = "This will start building this project on CircleCI with you following the project. Are you sure?";
+			const cantFollowAlert = "You do not have the proper permissions to follow this project.";
 
-						$( ".cci.btn span" ).text( "Unfollow" );
-						$( ".cci.btn" ).attr( "title", "Unfollow this project on CircleCI." );
-						alert( "You have successfully followed " + project.org + "/" + project.repo + "." );
+			if( project.following ){
+		
+				if( confirm( unFollowConfirm ) == true ){
+					$.post( apiURL + "project/github/" + project.org + "/" + project.repo + "/unfollow?circle-token=" + apiToken, function( data ){
+
+						$( ".cci.btn span" ).text( "Follow" );
+						$( ".cci.btn" ).attr( "title", "Follow this project on CircleCI." );
+						alert( "You have successfully unfollowed " + project.org + "/" + project.repo + "." );
 					});
 				}
 			} else{
-				alert( cantFollowAlert );
-			}
-		}
+				if( project.writable ){
 
-		e.preventDefault();
-	});
+					if( confirm( followConfirm ) == true ){
+						$.post( apiURL + "project/github/" + project.org + "/" + project.repo + "/follow?circle-token=" + apiToken, function( data ){
+
+							$( ".cci.btn span" ).text( "Unfollow" );
+							$( ".cci.btn" ).attr( "title", "Unfollow this project on CircleCI." );
+							alert( "You have successfully followed " + project.org + "/" + project.repo + "." );
+						});
+					}
+				} else{
+					alert( cantFollowAlert );
+				}
+			}
+
+			e.preventDefault();
+		});
+	}
 }
 
 function genPageAction(){
