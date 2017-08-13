@@ -1,4 +1,4 @@
-<img src="logo128.png" alt="Pointless Logo" title="Pointless" width="100%" height="80" />
+<img src="logo128.png" alt="Pointless Logo" title="Pointless" width="80" height="80" />
 
 # Pointless - a CircleCI Chrome Extension [![Build Status](https://circleci.com/gh/felicianotech/pointless.svg?style=shield)](https://circleci.com/gh/felicianotech/pointless) [![Software License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/felicianotech/pointless/master/LICENSE)
 
