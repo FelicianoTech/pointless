@@ -9,3 +9,11 @@ More features, such as searching CircleCI Docs, will be coming soon. You can use
 ## Installing
 
 Pointless can be installed via the [Chrome Store](https://chrome.google.com/webstore/detail/pointless-a-circleci-chro/edmkpfdmophaaeedepooedlhioimljai).
+
+## Configuring
+
+Add your [CircleCI API Token](https://circleci.com/account/api) to the extension options in chrome.
+
+## Using
+
+An icon will appear to the right of the project name, showing the status of the build on CircleCI
