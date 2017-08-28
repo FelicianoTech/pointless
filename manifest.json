@@ -2,17 +2,26 @@
 	"manifest_version": 2,
 	"name": "Pointless - a CircleCI Chrome Extension",
 	"short_name": "Pointless",
-	"version": "0.1.1.0",
-	"version_name": "v0.1.1",
-
+	"version": "0.2.0.0",
+	"version_name": "v0.2.0",
 	"description": "Pointless is a CircleCI extension that enhances browsing experience on websites such as GitHub.",
+	"author": "Ricardo N Feliciano - https://Feliciano.Tech",
+	"minimum_chrome_version": "50",
+
 	"icons":{
 		"16": "logo16.png",
 		"48": "logo48.png",
 		"128": "logo128.png"
 	},
 
-	"author": "Ricardo N Feliciano - https://Feliciano.Tech",
+	"background": {
+		"scripts": [
+			"vendor/algoliasearch-3.24.3.min.js",
+			"background.js"
+		]
+	},
+
+	"omnibox": { "keyword": "ci" },
 
 	"options_ui":{
 		"page": "options.html",
@@ -29,7 +38,7 @@
 		{
 			"matches": ["https://github.com/*/*"],
 			"css": ["github.css"],
-			"js": ["jquery-3.2.1.min.js", "github.js"]
+			"js": ["vendor/jquery-3.2.1.min.js", "github.js"]
 		}
 	],
 
