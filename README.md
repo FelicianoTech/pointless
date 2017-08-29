@@ -10,7 +10,7 @@ Pointless can be installed via the [Chrome Store](https://chrome.google.com/webs
 
 ## Configuring
 
-Many features require a [CircleCI API Token](https://circleci.com/account/api). Once you create a token at CircleCI's website, you can add it to Pointless by right-clicking the CircleCI icon at the top-right corner of your Google Chrome and clicking "Options".
+Many features require a [CircleCI API Token](https://circleci.com/account/api). Once you create a token on CircleCI's website, you can add it to Pointless by right-clicking the CircleCI icon at the top-right corner of Google Chrome and clicking "Options".
 
 ## Features
 
@@ -18,13 +18,13 @@ Many features require a [CircleCI API Token](https://circleci.com/account/api). 
 
 - **follow/unfollow projects** (GitHub) - on a repo page, a CircleCI "Follow"/"Unfollow" button will appear next to the "Watch", "Star", and "Fork" GitHub buttons.
 
-- **search docs** (Omnibox/address bar) - you can search CircleCI Docs (all of docs or a single section) right from Chrome's Omnibox. Instructions below.
+- **docs search** (Omnibox/address bar) - search CircleCI Docs (all of docs or a single section) right from Chrome's Omnibox. Instructions below.
 
 ## How-To
 
 ### Searching
 
-Pointless supports quick, special searches. Currently, only CircleCI Docs can be searched by more search types are on the roadmap.
+Pointless supports quick, special searches. Currently, only CircleCI Docs can be searched but more search types are on the roadmap.
 
 ### Search CircleCI Docs
 
