@@ -19,43 +19,28 @@ version: 2
 jobs:
   build:
     docker:
-      - image: ubuntu:16.04
-    environment:
-      - APP_ID: edmkpfdmophaaeedepooedlhioimljai
+      - image: cibuilds/chrome-extension:latest
     steps:
-      - run:
-          name: "Update Packages"
-          command: |
-            apt-get update
-            apt-get -y install zip curl jq git
       - checkout
       - run:
           name: "Filler - Proper CI/CD needs to be implemented."
           command: echo "The start of our build process."
       - run:
-          name: "Create .ZIP"
-          command: |
-            git archive -o pointless.zip HEAD
+          name: "Package Extension"
+          command: git archive -o pointless.zip HEAD
       - persist_to_workspace:
           root: /root/project
           paths:
             - pointless.zip
+
   publish:
     docker:
-      - image: ubuntu:16.04
+      - image: cibuilds/chrome-extension:latest
     environment:
       - APP_ID: edmkpfdmophaaeedepooedlhioimljai
     steps:
-      - run:
-          name: "Install Tools"
-          command: |
-            apt-get update
-            apt-get -y install zip curl jq git
       - attach_workspace:
           at: /root/workspace
       - run:
           name: "Publish to the Google Chrome Store"
-          command: |
-            ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
-            curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T /root/workspace/pointless.zip -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}"
-            curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "https://www.googleapis.com/chromewebstore/v1.1/items/${APP_ID}/publish"
+          command: publish /root/workspace/pointless.zip
