@@ -5,7 +5,7 @@ workflows:
       - build:
           filters:
             tags:
-              only: /^\d{4}\.\d+$/
+              only: /^\d{2}\.\d{2}\.\d+$/
       - publish:
           requires:
             - build
@@ -13,7 +13,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^\d{4}\.\d+$/
+              only: /^\d{2}\.\d{2}\.\d+$/
 
 version: 2
 jobs:
@@ -22,6 +22,13 @@ jobs:
       - image: cibuilds/chrome-extension:latest
     steps:
       - checkout
+      - run:
+          name: "Prepare Extension For Production"
+          command: |
+            if [[ $CIRCLE_TAG != "" ]];then
+              jq '.version = env.CIRCLE_TAG' manifest.json | sponge manifest.json
+            fi
+            jq '.browser_action.default_icon = "icon.png"' manifest.json | sponge manifest.json
       - run:
           name: "Filler - Proper CI/CD needs to be implemented."
           command: echo "The start of our build process."
