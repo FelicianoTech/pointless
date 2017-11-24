@@ -1,3 +1,20 @@
+function init(){
+
+	chrome.storage.sync.get({
+		apiToken: ""
+	}, function(items){
+		apiToken = items.apiToken;
+	
+		if( apiToken.length == 0 ){
+			chrome.browserAction.setBadgeText( {text:"!"} );
+			chrome.browserAction.setBadgeBackgroundColor( {color:[179,58,58,255]} );
+		}else{
+			chrome.browserAction.setBadgeText( {text:""} );
+		}
+	});
+
+}
+
 function navigate( url ){
 
 	chrome.tabs.query( {active: true, currentWindow: true }, function( tabs ){
@@ -90,6 +107,10 @@ function searchDocs( searchType, text, suggest){
  * Main
  *---------------------------------------------------------------------------*/
 
+var apiToken = "";
+
+init();
+
 // docSections
 var docSections = {
 	"d": {
@@ -159,4 +180,14 @@ chrome.omnibox.onInputEntered.addListener( function( text, disposition ){
 		default:
 			navigate( text );
 	}
+});
+
+chrome.runtime.onConnect.addListener(function(port){
+	console.assert(port.name == "github");
+	port.onMessage.addListener(function(msg){
+
+		if(msg.request == "api-token"){
+			port.postMessage({request: "api-token", response: apiToken});
+		}
+	});
 });

@@ -10,7 +10,7 @@ Pointless can be installed via the [Chrome Store](https://chrome.google.com/webs
 
 ## Configuring
 
-Many features require a [CircleCI API Token](https://circleci.com/account/api). Once you create a token on CircleCI's website, you can add it to Pointless by right-clicking the CircleCI icon at the top-right corner of Google Chrome and clicking "Options".
+This extension requires a CircleCI [Personal API Token](https://circleci.com/account/api). Once you create a token on CircleCI's website, you can add it to Pointless by right-clicking the CircleCI icon at the top-right corner of Google Chrome and clicking "Options".
 
 ## Features
 

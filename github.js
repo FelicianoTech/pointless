@@ -63,11 +63,24 @@ function genPageAction(){
 	</li>`;
 }
 
-function init(){
+function getAPIToken(){
+
+	port = chrome.runtime.connect( {name: "github"} );
+	port.postMessage( {request: "api-token"} );
+	port.onMessage.addListener( function( msg ){
+		if( msg.request == "api-token"){
+			apiToken = msg.response;
+
+			initGitHub();
+		}
+	});
+}
+
+function initGitHub(){
 
 	addRepoPageItems();
 	
-	$.getJSON( apiURL + "project/github/" + project.org + "/" + project.repo + "/settings", function( data, httpStatus ){
+	$.getJSON( apiURL + "project/github/" + project.org + "/" + project.repo + "/settings?circle-token=" + apiToken, function( data, httpStatus ){
 		
 		project.defaultBranch = data.default_branch;
 		project.following = data.following;
@@ -78,7 +91,7 @@ function init(){
 		// Get build status if project is building on CircleCI
 		if( project.building ){
 			
-			$.getJSON( apiURL + "project/github/" + project.org + "/" + project.repo + "/tree/" + project.defaultBranch, function( data ){
+			$.getJSON( apiURL + "project/github/" + project.org + "/" + project.repo + "/tree/" + project.defaultBranch + "?circle-token=" + apiToken, function( data ){
 				lastBuild = data[0].status;
 	
 				// check build status of last build that completed
@@ -124,13 +137,6 @@ function init(){
 }
 
 	apiURL = "https://circleci.com/api/v1.1/";
-	apiToken = "";
-
-	chrome.storage.sync.get({
-		apiToken: ""
-	}, function(items){
-		apiToken = items.apiToken;
-	});
 
 	project = {
 		org: window.location.pathname.split("/")[1],
@@ -142,12 +148,17 @@ function init(){
 		foss: false
 	};
 
+
+var port;
+var apiToken;
+
 $(document).ready(function(){
 
-	init();
+
+	getAPIToken();
 
 	$(document).on('pjax:end', function (t) {
-		init();
+		initGitHub();
 	});
 
 });
