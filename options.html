@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My Test Extension Options</title>
+	<title>Pointless Settings</title>
 	<style>
-		body: { padding: 10px; }
+		body{
+			padding: 5px;
+			font-size: 16px;
+		}
+
+		button{ display: block; margin-top: 10px !important; }
+
+		input{
+			margin: 10px 5px 0 10px;
+		}
+			input + span{
+				color: #666666;
+				font-size: smaller;
+			}
+
+		#status{
+			color: green;
+			font-size: larger;
+		}
 	</style>
 </head>
-
 <body>
-	<label> CircleCI API Token: <input type="input" id="token" /></label>
+	<label for="token">CircleCI API Token (<a href="https://circleci.com/account/api">create one</a>):</label>
+	<input type="input" id="token" /><span>required</span>
 
-  <div id="status"></div>
-  <button id="save">Save</button>
+	<div id="status"></div>
+	<button id="save">Save</button>
 
-  <script src="options.js"></script>
+<script src="options.js"></script>
 </body>
 </html>

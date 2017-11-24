@@ -11,6 +11,9 @@ function save_options() {
       status.textContent = '';
     }, 750);
   });
+
+	var bgJS = chrome.extension.getBackgroundPage();
+	bgJS.init();
 }
 
 // Restores select box and checkbox state using the preferences
