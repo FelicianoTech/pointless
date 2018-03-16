@@ -49,12 +49,6 @@ function searchDocs( searchType, text, suggest){
 				// DEBUG
 				//console.log( content.hits[h] );
 
-				// The following variable declaration and if block is needed due to this bug: https://github.com/circleci/circleci-docs/issues/1479
-				var badAnchorCheck = content.hits[h].url.indexOf( "#nav-button" );
-				if( badAnchorCheck != -1 ){
-					content.hits[h].url = content.hits[h].url.substr( 0, badAnchorCheck );
-				}
-
 				if( content.hits[h]._highlightResult.hierarchy.lvl2 ){
 					suggestions.push( { content: content.hits[h].url, description: "<dim>" + content.hits[h].hierarchy.lvl0 + " Docs - </dim>" + content.hits[h]._highlightResult.hierarchy.lvl1.value + ": " + content.hits[h]._highlightResult.hierarchy.lvl2.value } );
 				}else{
