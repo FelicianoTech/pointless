@@ -1,5 +1,7 @@
 function init(){
 
+	console.log( "DEBUG: Background.js's init() started." );
+
 	chrome.storage.sync.get({
 		apiToken: ""
 	}, function(items){
@@ -13,12 +15,21 @@ function init(){
 		}
 	});
 
+	setInterval( pullProjects, 60000 );
 }
 
 function navigate( url ){
 
 	chrome.tabs.query( {active: true, currentWindow: true }, function( tabs ){
 		chrome.tabs.update( tabs[0].id, { url: url } );
+	});
+}
+
+function pullProjects(){
+
+	$.getJSON( apiURL + "projects?circle-token=" + apiToken, function( data, httpStatus ){
+		console.log( "DEBUG: token=" + apiToken );
+		console.log( "DEBUG: " + data.length );
 	});
 }
 
@@ -101,7 +112,9 @@ function searchDocs( searchType, text, suggest){
  * Main
  *---------------------------------------------------------------------------*/
 
-var apiToken = "";
+var apiToken = ""; // CircleCI API token - should be a user/personal token
+var apiURL = "https://circleci.com/api/v1.1/";
+var projects = []; // array of "project" objects containing projects the user follows on CircleCI
 
 init();
 
