@@ -15,6 +15,7 @@ function init(){
 		}
 	});
 
+	pullProjects;
 	setInterval( pullProjects, 60000 );
 }
 
@@ -27,9 +28,12 @@ function navigate( url ){
 
 function pullProjects(){
 
+	console.log( "DEBUG: pullProjects - start" );
+
 	$.getJSON( apiURL + "projects?circle-token=" + apiToken, function( data, httpStatus ){
 		console.log( "DEBUG: token=" + apiToken );
 		console.log( "DEBUG: " + data.length );
+		console.log( data );
 	});
 }
 
