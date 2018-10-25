@@ -5,7 +5,7 @@ workflows:
       - build:
           filters:
             tags:
-              only: /^\d{2}\.\d{2}\.\d+$/
+              only: /^v\d{2}\.\d{2}\.\d+$/
       - publish:
           requires:
             - build
@@ -13,7 +13,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^\d{2}\.\d{2}\.\d+$/
+              only: /^v\d{2}\.\d{2}\.\d+$/
 
 version: 2
 jobs:
