@@ -48,6 +48,8 @@ jobs:
     steps:
       - attach_workspace:
           at: /root/workspace
+      - store_artifacts:
+          path: "/root/workspace/pointless.zip"
       - run:
           name: "Publish to the Google Chrome Store"
           command: publish /root/workspace/pointless.zip
