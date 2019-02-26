@@ -1,5 +1,5 @@
+version: 2.1
 workflows:
-  version: 2
   main:
     jobs:
       - build:
@@ -14,8 +14,6 @@ workflows:
               ignore: /.*/
             tags:
               only: /^\d{4}\.\d+$/
-
-version: 2
 jobs:
   build:
     docker:
@@ -39,7 +37,6 @@ jobs:
           root: /root/project
           paths:
             - pointless.zip
-
   publish:
     docker:
       - image: cibuilds/chrome-extension:latest
