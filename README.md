@@ -30,6 +30,8 @@ Pointless supports quick, special searches. Currently, only CircleCI Docs can be
 
 In the Omnibox (address bar) type `ci` and press tab to activate Pointless' Search. Then, type `d`, a space, and then one or more search terms to search all of CircleCI Docs. You can search 1.0 Docs specifically by using `d1` instead of `d`, for 2.0, `d2`, for API Docs, `da`, and for CCIE Docs, `de`.
 
+Note that the search results will appear as a suggested page underneath the Omnibox. Hitting `Enter` will bring you to the CircleCi Docs index.
+
 ### Examples
 
 Search all of CircleCI Docs for Docker by typing: `ci <tab> d docker`
