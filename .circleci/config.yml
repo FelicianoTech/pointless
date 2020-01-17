@@ -24,15 +24,17 @@ jobs:
           name: "Prepare Extension For Production"
           command: |
             if [[ $CIRCLE_TAG != "" ]];then
+              echo "Applying real version."
               jq '.version = env.CIRCLE_TAG' manifest.json | sponge manifest.json
             fi
             jq '.browser_action.default_icon = "icon.png"' manifest.json | sponge manifest.json
       - run:
           name: "Filler - Proper CI/CD needs to be implemented."
           command: echo "The start of our build process."
+      - run: apk add --no-cache zip
       - run:
           name: "Package Extension"
-          command: git archive -o pointless.zip HEAD
+          command: zip -r pointless.zip . -x *.git*
       - persist_to_workspace:
           root: /root/project
           paths:
