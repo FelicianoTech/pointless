@@ -1,9 +1,9 @@
 function addRepoPageItems(){
 
-	if( $( "div.repohead-details-container h1 a.cci" ).length == 0 ){
+	if( $( "div.repohead h1 a.cci" ).length == 0 ){
 	
 		// Start with a grey status indicator until we determine the project's build status
-		$("div.repohead-details-container h1 strong[itemprop='name']").after('<a class="cci" href="" title="This project is not built on CircleCI"><span class="default-build-status"></span></a>');
+		$("div.repohead h1 strong[itemprop='name']").after('<a class="cci" href="" title="This project is not built on CircleCI"><span class="default-build-status"></span></a>');
 	}
 
 	if( $( ".cci.btn" ).length == 0 ){
