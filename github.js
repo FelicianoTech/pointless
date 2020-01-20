@@ -84,7 +84,8 @@ function initGitHub(){
 		
 		project.defaultBranch = data.default_branch;
 		project.following = data.following;
-		project.writable = data.scopes.includes("write-settings");
+		// The below line is broken. Temp removing it.
+		//project.writable = data.scopes.includes("write-settings");
 		project.building = data.has_usable_key;
 		project.foss = data.oss;
 
@@ -116,8 +117,8 @@ function initGitHub(){
 						classStatus = "error";
 				}
 			
-				$( "div.repohead-details-container h1 a.cci span" ).addClass( classStatus );
-				$( "div.repohead-details-container h1 a.cci" ).attr({
+				$( "div.repohead h1 a.cci span" ).addClass( classStatus );
+				$( "div.repohead h1 a.cci" ).attr({
 					"href": "https://circleci.com/gh/" + project.org  + "/" + project.repo + "/tree/" + project.defaultBranch,
 					"title": project.defaultBranch + " branch build status: " + classStatus + ". Click to visit project on CircleCI."
 				});
