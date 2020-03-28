@@ -22,77 +22,44 @@ function navigate( url ){
 	});
 }
 
-// handle searching specifically for CircleCI Docs (all, 1.0, 2.0, CCIE, or API)
+// Handle search logic specific to CircleCI Docs
 function searchDocs( searchType, text, suggest){
 
 	var suggestions = [];
 
-	chrome.omnibox.setDefaultSuggestion( { description: docSections[ searchType ].defaultSuggestion } );
+	chrome.omnibox.setDefaultSuggestion({ description: "Click here to visit CircleCI Docs" });
 
-	if( searchType != "d" ){
-
-		index.search( text, {
-			filters: "version:" + docSections[ searchType ].filter,
-			highlightPreTag:	"<match>",
-			highlightPostTag:	"</match>",
-			hitsPerPage:		5
-		}, function searchDone( err, content ){
-
-			if( err ){
-			
-				console.error( err );
-				return;
-			}
-
-			for( var h in content.hits ){
-
-				// DEBUG
-				//console.log( content.hits[h] );
-
-				if( content.hits[h]._highlightResult.hierarchy.lvl2 ){
-					suggestions.push( { content: content.hits[h].url, description: "<dim>" + content.hits[h].hierarchy.lvl0 + " Docs - </dim>" + content.hits[h]._highlightResult.hierarchy.lvl1.value + ": " + content.hits[h]._highlightResult.hierarchy.lvl2.value } );
-				}else{
-					suggestions.push( { content: content.hits[h].url, description: "<dim>" + content.hits[h].hierarchy.lvl0 + " Docs - </dim>" + content.hits[h]._highlightResult.hierarchy.lvl1.value } );
-				}
-				suggest( suggestions );
-			}
+	docsIndex.search( text, {
+		hitsPerPage:			7,
+		attributesToRetrieve:	[ 'title', 'url' ],
+		filters: "collection:cci2",
+	}).then(({ hits }) => {
+		hits.forEach(function( hit ){
+			suggestions.push({ content: "https://circleci.com/docs" + hit.url, description: "<dim>" + hit.title + "</dim>" });
 		});
-	}else{
 
-		index.search( text, {
-			highlightPreTag:	"<match>",
-			highlightPostTag:	"</match>",
-			hitsPerPage:		5
-		}, function searchDone( err, content ){
+		suggest( suggestions );
+	});
+}
 
-			if( err ){
-			
-				console.error( err );
-				return;
-			}
+// Handle search logic specific to CircleCI Orbs
+function searchOrbs( searchType, text, suggest){
 
-			for( var h in content.hits ){
+	var suggestions = [];
 
-				// DEBUG
-				//console.log( content.hits[h] );
+	chrome.omnibox.setDefaultSuggestion({ description: "Click here to visit the Orb Registry" });
 
-				// The following variable declaration and if block is needed due to this bug: https://github.com/circleci/circleci-docs/issues/1479
-				var badAnchorCheck = content.hits[h].url.indexOf( "#nav-button" );
-				if( badAnchorCheck != -1 ){
-					content.hits[h].url = content.hits[h].url.substr( 0, badAnchorCheck );
-				}
+		orbIndex.search( text, {
+			hitsPerPage:		7,
+			attributesToRetrieve: [ 'objectID', 'url' ],
+		}).then(({ hits }) => {
 
-				if( content.hits[h]._highlightResult.hierarchy.lvl2 ){
-					suggestions.push( { content: content.hits[h].url, description: "<dim>" + content.hits[h].hierarchy.lvl0 + " Docs - </dim>" + content.hits[h]._highlightResult.hierarchy.lvl1.value + ": " + content.hits[h]._highlightResult.hierarchy.lvl2.value } );
-				}else{
-					suggestions.push( { content: content.hits[h].url, description: "<dim>" + content.hits[h].hierarchy.lvl0 + " Docs - </dim>" + content.hits[h]._highlightResult.hierarchy.lvl1.value } );
-				}
+			hits.forEach(function( hit ){
+				suggestions.push( { content: hit.url, description: "<dim>" + hit.objectID + "</dim>" } );
+			});
 
-				suggest( suggestions );
-			}
+			suggest( suggestions );
 		});
-	}
-
 }
 
 
@@ -105,40 +72,13 @@ var apiToken = "";
 
 init();
 
-// docSections
-var docSections = {
-	"d": {
-		"filter": null,
-		"defaultSuggestion": "Click Here to Open CircleCI Docs Homepage",
-		"indexPage": "https://circleci.com/docs/"
-	},
-	"d1": {
-		"filter": "1.0",
-		"defaultSuggestion": "Click Here to Open CircleCI 1.0 Docs",
-		"indexPage": "https://circleci.com/docs/1.0/"
-	},
-	"d2": {
-		"filter": "2.0",
-		"defaultSuggestion": "Click Here to Open CircleCI 2.0 Docs",
-		"indexPage": "https://circleci.com/docs/2.0/"
-	},
-	"de": {
-		"filter": "enterprise",
-		"defaultSuggestion": "Click Here to Open CircleCI Enterprise Docs",
-		"indexPage": "https://circleci.com/docs/enterprise/"
-	},
-	"da": {
-		"filter": "api",
-		"defaultSuggestion": "Click Here to Open CircleCI API Docs",
-		"indexPage": "https://circleci.com/docs/api/v1-reference/"
-	}
-};
+// Setup Algolia v4 JavaScript client
+//import algoliasearch from 'algoliasearch/lite';
+const client = algoliasearch( "U0RXNGRK45", "7fb53cd578f887582b8e3085221a4f65" );
+const docsIndex = client.initIndex( "documentation" );
+const orbIndex = client.initIndex( "orbs-prod" );
 
-// Prepare the Algolia API client to search CircleCI Docs
-var client = algoliasearch( "BH4D9OD16A", "851a2eaa13614d164b36370fba830a78" );
-var index = client.initIndex( "circleci" );
-
-// Omnibox Search - currently just searches CircleCI Docs
+// Omnibox Search - currently searches CircleCI Docs and Orbs
 chrome.omnibox.onInputChanged.addListener( function( text, suggest ){
 
 	var searchType = text.split(" ")[0];
@@ -146,11 +86,16 @@ chrome.omnibox.onInputChanged.addListener( function( text, suggest ){
 
 	switch( searchType ){
 		case "d":
+		// the old docs options below are kept for backwards compatibility
+		// remove sometime after June 2020 
 		case "d1":
 		case "d2":
 		case "de":
 		case "da":
 			searchDocs( searchType, text, suggest );
+			break;
+		case "o":
+			searchOrbs( searchType, text, suggest );
 			break;
 		default:
 			chrome.omnibox.setDefaultSuggestion( { description: "Search type not recognized." } );
@@ -160,20 +105,7 @@ chrome.omnibox.onInputChanged.addListener( function( text, suggest ){
 
 // Omnibox Search - visit the URL of the slected suggestion
 chrome.omnibox.onInputEntered.addListener( function( text, disposition ){
-
-	var searchType = text.split(" ")[0];
-
-	switch( searchType ){
-		case "d":
-		case "d1":
-		case "d2":
-		case "de":
-		case "da":
-			navigate( docSections[ searchType ].indexPage );
-			break;
-		default:
-			navigate( text );
-	}
+	navigate( text );
 });
 
 chrome.runtime.onConnect.addListener(function(port){

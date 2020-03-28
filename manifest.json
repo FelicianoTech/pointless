@@ -14,7 +14,7 @@
 
 	"background": {
 		"scripts": [
-			"vendor/algoliasearch-3.24.3.min.js",
+			"vendor/algoliasearch-4.1.0.min.js",
 			"background.js"
 		]
 	},
