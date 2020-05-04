@@ -91,8 +91,19 @@ function initGitHub(){
 
 		// Get build status if project is building on CircleCI
 		if( project.building ){
+
+			// Choose branch based on contex
+			var curBranch = "";
+			// if we're on the main page, viewing a non-default branch
+			if( window.location.pathname.split("/")[3] == "tree" ){
+				curBranch = window.location.pathname.split("/")[4];
+			}else if( window.location.pathname.split("/")[3] == "pull" ){
+				curBranch = $( ".commit-ref-dropdown summary span" ).text();
+			}else{
+				curBranch = project.defaultBranch;
+			}
 			
-			$.getJSON( apiURL + "project/github/" + project.org + "/" + project.repo + "/tree/" + project.defaultBranch + "?circle-token=" + apiToken, function( data ){
+			$.getJSON( apiURL + "project/github/" + project.org + "/" + project.repo + "/tree/" + curBranch + "?circle-token=" + apiToken, function( data ){
 				lastBuild = data[0].status;
 	
 				// check build status of last build that completed
@@ -119,8 +130,8 @@ function initGitHub(){
 			
 				$( "div.repohead h1 a.cci span" ).addClass( classStatus );
 				$( "div.repohead h1 a.cci" ).attr({
-					"href": "https://circleci.com/gh/" + project.org  + "/" + project.repo + "/tree/" + project.defaultBranch,
-					"title": project.defaultBranch + " branch build status: " + classStatus + ". Click to visit project on CircleCI."
+					"href": "https://circleci.com/gh/" + project.org  + "/" + project.repo + "/tree/" + curBranch,
+					"title": curBranch + " branch build status: " + classStatus + ". Click to visit project on CircleCI."
 				});
 			});
 		}
