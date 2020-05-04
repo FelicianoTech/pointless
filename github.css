@@ -1,12 +1,12 @@
 a.cci{
-	margin-left: 0;
+	margin: -3px 8px 0 0;
 }
 	a.cci span.default-build-status{
 		display: inline-block;
 		border-radius: 50%;
 		background-color: #DEDEDE;
-		width: 11px;
-		height: 11px;
+		width: 12px;
+		height: 12px;
 		transition: background-color 2s;
 	}
 		a.cci span.default-build-status.passed{
