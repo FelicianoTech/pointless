@@ -27,7 +27,7 @@ function searchDocs( searchType, text, suggest){
 
 	var suggestions = [];
 
-	chrome.omnibox.setDefaultSuggestion({ description: "Click here to visit CircleCI Docs" });
+	chrome.omnibox.setDefaultSuggestion({ description: "CircleCI Docs results:" });
 
 	docsIndex.search( text, {
 		hitsPerPage:			7,
@@ -47,7 +47,7 @@ function searchOrbs( searchType, text, suggest){
 
 	var suggestions = [];
 
-	chrome.omnibox.setDefaultSuggestion({ description: "Click here to visit the Orb Registry" });
+	chrome.omnibox.setDefaultSuggestion({ description: "CircleCI Orb Registry results:" });
 
 		orbIndex.search( text, {
 			hitsPerPage:		7,
