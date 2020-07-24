@@ -2,7 +2,7 @@ a.cci{
 	margin-left: 0;
 }
 	a.cci.status-dot{
-		margin: -3px 8px 0 0;
+		margin: 0 8px 0 0;
 	}
 	a.cci span.default-build-status{
 		display: inline-block;
