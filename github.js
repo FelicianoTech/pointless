@@ -1,6 +1,6 @@
 function addRepoPageItems(){
 
-	if( $( "h1 svg.octicon-repo ~ strong[itemprop='name'] a.cci" ).length == 0 ){
+	if( $( "h1 svg.octicon-repo ~ strong[itemprop='name'] + a.cci" ).length == 0 ){
 	
 		// Start with a grey status indicator until we determine the project's build status
 		$("h1 svg.octicon-repo ~ strong[itemprop='name']").after('<a class="cci status-dot" href="" title="This project is not built on CircleCI"><span class="default-build-status"></span></a>');
@@ -98,7 +98,7 @@ function initGitHub(){
 			if( window.location.pathname.split("/")[3] == "tree" ){
 				curBranch = window.location.pathname.split("/")[4];
 			}else if( window.location.pathname.split("/")[3] == "pull" ){
-				curBranch = $( ".commit-ref-dropdown summary span" ).text();
+				curBranch = $( "div.TableObject-item--primary a.author + span.commit-ref span.css-truncate-target" ).text();
 			}else{
 				curBranch = project.defaultBranch;
 			}
