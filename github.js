@@ -97,8 +97,9 @@ function initGitHub(){
 			// if we're on the main page, viewing a non-default branch
 			if( window.location.pathname.split("/")[3] == "tree" ){
 				curBranch = window.location.pathname.split("/")[4];
-			}else if( window.location.pathname.split("/")[3] == "pull" ){
-				curBranch = $( "div.TableObject-item--primary a.author + span.commit-ref span.css-truncate-target" ).text();
+			// base branch detection for PRs is causing problems with GitHub's new UI. For now, we'll disable and just use the default.
+			//}else if( window.location.pathname.split("/")[3] == "pull" ){
+			//	curBranch = $( "div.TableObject-item--primary a.author + span.commit-ref span.css-truncate-target" ).text();
 			}else{
 				curBranch = project.defaultBranch;
 			}
