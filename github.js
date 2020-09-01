@@ -131,7 +131,7 @@ function initGitHub(){
 			
 				$( "h1 svg.octicon-repo ~ a.cci span, h1 svg.octicon-lock ~ a.cci span" ).addClass( classStatus );
 				$( "h1 svg.octicon-repo ~ a.cci, h1 svg.octicon-lock ~ a.cci" ).attr({
-					"href": "https://circleci.com/gh/" + project.org  + "/" + project.repo + "/tree/" + curBranch,
+					"href": "https://app.circleci.com/pipelines/github/" + project.org  + "/" + project.repo + "?branch=" + curBranch,
 					"title": curBranch + " branch build status: " + classStatus + ". Click to visit project on CircleCI."
 				});
 			});
